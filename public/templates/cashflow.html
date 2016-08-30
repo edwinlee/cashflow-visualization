@@ -1,0 +1,10 @@
+    <div class="item" ng-class="{'editing-item': editing, 'edited': cashflow.edited, 'completed': cashflow.completed}" ng-repeat="cashflow in cashflows | orderBy: 'completed' " ng-init="cashflow.completed = false">
+      <input type="checkbox" ng-model="cashflow.completed" />
+      <span ng-click="cashflow.completed = !cashflow.completed; cashflow.edited = true"></span>
+      <label ng-hide="editing" ng-click="editing=true">{{cashflow.name}}</label>
+      <input ng-show="editing" ng-blur="editing = false" class="editing-label" type="text" ng-model="cashflow.name" ng-change="cashflow.edited = true"/>
+      <div class="actions">
+        <a href="" ng-click="saveCashFlows()">Save</a>
+        <a href="" class="delete" ng-click="deleteCashFlow(cashflow, $index)">Delete</a>
+      </div>
+    </div>

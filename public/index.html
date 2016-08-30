@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title></title>
+  <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/styles/main.css" type="text/css">
+</head>
+<body ng-app="cashFlowApp">
+  
+  <h1>My cash flows!</h1>
+  
+  <div class="list" ng-controller="mainCtrl">
+    <div class="add">
+      <a href="#" ng-click="addCashFlow()">
+        + Add a New Cash Flow</a>
+      </div>
+    <cashflow></cashflow>
+   </div>
+
+  
+  <script src="/vendor/angular.js"></script>
+  <script src="/scripts/app.js"></script>
+  <script src="/scripts/controllers/main.js"></script>
+  <script src="/scripts/controllers/cashflow.js"></script>
+  <script src="/scripts/services/data.js"></script>
+  <script src="/scripts/directives/cashflow.js"></script>
+</body>
+</html>
