@@ -4,7 +4,7 @@ angular.module('cashFlowApp')
 .controller('mainCtrl', function($scope, dataService){
   
   dataService.getCashFlows(function(response){
-    var cashflows = response.data;  
+    var cashflows = response.data.cashflows;  
     $scope.cashflows =  cashflows;
     });
   

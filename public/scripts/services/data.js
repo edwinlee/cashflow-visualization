@@ -3,7 +3,7 @@
 angular.module('cashFlowApp')
 .service('dataService', function($http) {
   this.getCashFlows = function(cb) {
-    $http.get('/mock/cashflows.json').then(cb);
+    $http.get('/api/cashflows').then(cb);
   };
   
   this.deleteCashFlow = function(cashflow) {
