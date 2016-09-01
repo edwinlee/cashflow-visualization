@@ -1,5 +1,7 @@
 'use strict';
 
+var angular = require('angular');
+
 angular.module('cashFlowApp')
 .controller('cashFlowCtrl', function($scope, dataService) {
   $scope.deleteCashFlow = function(cashflow, index) {

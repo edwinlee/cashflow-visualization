@@ -1,5 +1,7 @@
 'use strict';
 
+var angular = require('angular');
+
 angular.module('cashFlowApp')
 .controller('mainCtrl', function($scope, dataService){
   

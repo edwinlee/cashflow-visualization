@@ -1,5 +1,7 @@
 'use strict';
 
+var angular = require('angular');
+
 angular.module('cashFlowApp')
 .service('dataService', function($http) {
   this.getCashFlows = function(cb) {
