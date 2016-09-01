@@ -1,9 +1,13 @@
-[{
-	"name": "some todo reply email",
-	"another one": "test out an api",
-	"this is new": "test out an api",
-	"some request": "test out an api",
-	"hey": "test out an api",
-	"hello": "test out an api",
-	"awesome": "test out an api"
-}]
+[
+	{
+	"name": "some todo reply email"
+	}, {
+	"another one": "test out an api"},
+	{
+	"this is new": "test out an api"},
+	{
+	"some request": "test out an api"},
+	{"hey": "test out an api"},
+	{"hello": "test out an api"},
+	{"awesome": "test out an api"}
+]
