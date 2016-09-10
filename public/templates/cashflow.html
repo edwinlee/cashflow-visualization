@@ -1,8 +1,29 @@
-    <div class="item" ng-class="{'editing-item': editing, 'edited': cashflow.edited, 'completed': cashflow.completed}" ng-repeat="cashflow in cashflows | orderBy: 'completed' " ng-init="cashflow.completed = false">
-      <input type="checkbox" ng-model="cashflow.completed" />
-      <span ng-click="cashflow.completed = !cashflow.completed; cashflow.edited = true"></span>
-      <label ng-hide="editing" ng-click="editing=true">{{cashflow.name}}</label>
-      <input ng-show="editing" ng-blur="editing = false" class="editing-label" type="text" ng-model="cashflow.name" ng-change="cashflow.edited = true"/>
+    <div class="item" ng-repeat="cashflow in cashflows | orderBy: 'completed' " >
+      <ul>
+        <li>Income
+          <ul>
+            <li ng-repeat="item in cashflow.income" ng-class="{'editing-item': income.editing, 'completed': cashflow.completed}">
+
+              <label ng-hide="income.editing" ng-click="income.editing=true">{{item.name}}</label><input ng-show="income.editing" ng-blur="income.editing = false" class="editing-label" type="text" ng-model="item.name" ng-change="cashflow.edited = true"/>
+
+              <label ng-hide="income.editing" ng-click="income.editing=true">{{item.amount}}</label><input ng-show="income.editing" ng-blur="income.editing = false" class="editing-label" type="text" ng-model="item.amount" ng-change="cashflow.edited = true"/>
+            </li>
+
+            <li><label ng-hide="editing" ng-click="addIncome(cashflow)">Add an item</label></li>
+          </ul>
+        </li>
+        <li>Expenses
+          <ul>
+            <li ng-class="{'editing-item': cashflow.edited, 'completed': cashflow.completed}" ng-repeat="item in cashflow.expenses"><label ng-hide="editing" ng-click="editing=true">{{item.name}}</label><input ng-show="editing" ng-blur="editing = false" class="editing-label" type="text" ng-model="item.name" ng-change="cashflow.edited = true"/>
+
+            <label ng-hide="editing" ng-click="editing=true">{{item.amount}}</label><input ng-show="editing" ng-blur="editing = false" class="editing-label" type="text" ng-model="item.amount" ng-change="cashflow.edited = true"/></li>
+
+            <li><label ng-hide="editing" ng-click="addExpense(cashflow)">Add an item</label></li>
+          </ul>
+        </li>
+        <li>Share: <a href="http://localhost:3000/s/{{cashflow._id}}" target="_self">http://localhost:3000/s/{{cashflow._id}}</a></li>
+      </ul>
+      
       <div class="actions">
         <a href="" ng-click="saveCashFlows()">Save</a>
         <a href="" class="delete" ng-click="deleteCashFlow(cashflow, $index)">Delete</a>
