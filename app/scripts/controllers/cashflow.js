@@ -7,18 +7,30 @@ angular.module('cashFlowApp').config(function($locationProvider) {
 }).controller('cashFlowCtrl', function($scope, dataService) {
 
   $scope.addIncome = function(cashflow) {
-    cashflow.income.push({'name': 'something', 'amount': 0});
+    cashflow.income.push({'name': '', 'amount': 0});
+    //dataService.addIncome(cashflow);
+  };
+
+  $scope.removeIncome = function(cashflow, index) {
+    cashflow.income.splice(index, 1);
+    console.log(index);
     //dataService.addIncome(cashflow);
   };
 
   $scope.addExpense = function(cashflow) {
-    cashflow.expenses.push({'name': 'something', 'amount': 0});
+    cashflow.expenses.push({'name': '', 'amount': 0});
+    //dataService.addIncome(cashflow);
+  };
+
+  $scope.removeExpense = function(cashflow, index) {
+    cashflow.expenses.splice(index, 1);
+    console.log(index);
     //dataService.addIncome(cashflow);
   };
 
   $scope.deleteCashFlow = function(cashflow, index) {
     $scope.cashflows.splice(index, 1);
-    dataService.deleteCashFlow(cashflow);
+    dataService.deleteCashFlow(cashflow, index);
   };
   
   $scope.saveCashFlows = function() {

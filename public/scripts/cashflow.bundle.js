@@ -46,16 +46,20 @@ webpackJsonp([0],[
 	  $scope.addCashFlow = function() {
 	    $scope.cashflows.unshift(
 	    	{
-	    		_id: shortid.generate(),
-	    		income: {
-	    			'enter type': 0,
-	    			editing: true
-	    		},
-	            expenses: {
-	            	'enter type' : 0,
-	            	editing: true
-	            }
-	        }
+	    		income: [
+	          {
+	            name: 'enter type',
+	            amount: 0
+	          }
+	    		],
+	        expenses: [
+	          {
+	        	  name: 'enter type',
+	            amount: 0
+	          }
+	        ],
+	        edited: true
+	      }
 	    );
 	  };
 	  
@@ -425,18 +429,30 @@ webpackJsonp([0],[
 	}).controller('cashFlowCtrl', function($scope, dataService) {
 
 	  $scope.addIncome = function(cashflow) {
-	    cashflow.income.push({'name': 'something', 'amount': 0});
+	    cashflow.income.push({'name': '', 'amount': 0});
+	    //dataService.addIncome(cashflow);
+	  };
+
+	  $scope.removeIncome = function(cashflow, index) {
+	    cashflow.income.splice(index, 1);
+	    console.log(index);
 	    //dataService.addIncome(cashflow);
 	  };
 
 	  $scope.addExpense = function(cashflow) {
-	    cashflow.expenses.push({'name': 'something', 'amount': 0});
+	    cashflow.expenses.push({'name': '', 'amount': 0});
+	    //dataService.addIncome(cashflow);
+	  };
+
+	  $scope.removeExpense = function(cashflow, index) {
+	    cashflow.expenses.splice(index, 1);
+	    console.log(index);
 	    //dataService.addIncome(cashflow);
 	  };
 
 	  $scope.deleteCashFlow = function(cashflow, index) {
 	    $scope.cashflows.splice(index, 1);
-	    dataService.deleteCashFlow(cashflow);
+	    dataService.deleteCashFlow(cashflow, index);
 	  };
 	  
 	  $scope.saveCashFlows = function() {
@@ -492,8 +508,16 @@ webpackJsonp([0],[
 	    
 	  };
 	  
-	  this.deleteCashFlow = function(cashflow) {
-	    console.log("I deleted the " + cashflow.name + " cashflow!");
+	  this.deleteCashFlow = function(cashflow, index) {
+	    console.log("I deleted the " + cashflow + " cashflow!");
+
+
+	    var request = $http.delete('/api/cashflows/' + cashflow._id, cashflow).then(function(result) {
+	        cashflow = result.data.cashflow;
+	        return cashflow;
+	    });
+
+
 	  };
 
 	  this.addIncome = function(cashflow) {
@@ -509,7 +533,7 @@ webpackJsonp([0],[
 	  };
 	  
 	  this.saveCashFlows = function(cashflows) {
-	  	console.log('hey it saved');
+	  	console.log(cashflows);
 	  	var queue = [];
 
 	  	cashflows.forEach(function(cashflow) {
@@ -527,10 +551,9 @@ webpackJsonp([0],[
 	  	});
 
 	  	return $q.all(queue).then(function(results) {
-	  		console.log('i saved x todos');
+	  		console.log("I saved " + cashflows.length + " cashflows!");
 	  	});
 
-	    console.log("I saved " + cashflows.length + " cashflows!");
 	  };
 	  
 	});

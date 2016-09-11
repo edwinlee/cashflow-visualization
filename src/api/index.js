@@ -15,7 +15,6 @@ router.get('/cashflows', function(req, res) {
 		res.json({cashflows: cashflows});
 
 	});
-
 	
 });
 
@@ -53,6 +52,17 @@ router.put('/cashflows/:id', function(req, res) {
 			return res.status(500).json({message: err.message});
 		}
 		res.json({'cashflow': cashflow, message: 'Cashflow updated'});
+	});
+});
+
+router.delete('/cashflows/:id', function(req, res) {
+	var id = req.params.id;
+
+	Cashflow.findByIdAndRemove(id, function(err, cashflow) {
+		if(err) {
+			return res.status(500).json({message: err.message});
+		}
+		res.json({'cashflow': cashflow, message: 'Cashflow deleted'});
 	});
 });
 

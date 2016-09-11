@@ -25,16 +25,20 @@ angular.module('cashFlowApp')
   $scope.addCashFlow = function() {
     $scope.cashflows.unshift(
     	{
-    		_id: shortid.generate(),
-    		income: {
-    			'enter type': 0,
-    			editing: true
-    		},
-            expenses: {
-            	'enter type' : 0,
-            	editing: true
-            }
-        }
+    		income: [
+          {
+            name: 'enter type',
+            amount: 0
+          }
+    		],
+        expenses: [
+          {
+        	  name: 'enter type',
+            amount: 0
+          }
+        ],
+        edited: true
+      }
     );
   };
   

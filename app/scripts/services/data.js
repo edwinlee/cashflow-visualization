@@ -14,8 +14,16 @@ angular.module('cashFlowApp')
     
   };
   
-  this.deleteCashFlow = function(cashflow) {
-    console.log("I deleted the " + cashflow.name + " cashflow!");
+  this.deleteCashFlow = function(cashflow, index) {
+    console.log("I deleted the " + cashflow + " cashflow!");
+
+
+    var request = $http.delete('/api/cashflows/' + cashflow._id, cashflow).then(function(result) {
+        cashflow = result.data.cashflow;
+        return cashflow;
+    });
+
+
   };
 
   this.addIncome = function(cashflow) {
@@ -31,7 +39,7 @@ angular.module('cashFlowApp')
   };
   
   this.saveCashFlows = function(cashflows) {
-  	console.log('hey it saved');
+  	console.log(cashflows);
   	var queue = [];
 
   	cashflows.forEach(function(cashflow) {
@@ -49,10 +57,9 @@ angular.module('cashFlowApp')
   	});
 
   	return $q.all(queue).then(function(results) {
-  		console.log('i saved x todos');
+  		console.log("I saved " + cashflows.length + " cashflows!");
   	});
 
-    console.log("I saved " + cashflows.length + " cashflows!");
   };
   
 });
