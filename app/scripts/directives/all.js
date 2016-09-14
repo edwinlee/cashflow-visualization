@@ -3,9 +3,9 @@
 var angular = require('angular');
 
 angular.module('cashFlowApp')
-.directive('cashflow', function(){
+.directive('all', function(){
   return {
-    templateUrl: 'templates/cashflow.html',
+    templateUrl: '../templates/all.html',
     replace: true,
     controller: 'cashFlowCtrl'
   }

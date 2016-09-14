@@ -6,7 +6,7 @@ angular.module('cashFlowApp')
 .service('dataService', function($http, $q, $location) {
   this.getCashFlows = function(cb) {
 
-    if($location.path() === '/') {
+    if($location.path() === '/all/') {
       $http.get('/api/cashflows').then(cb);
     } else {
       $http.get('/api/cashflows/' + $location.path().split('/s/')[1].replace(/\/$/, '')).then(cb);
@@ -39,27 +39,39 @@ angular.module('cashFlowApp')
   };
   
   this.saveCashFlows = function(cashflows) {
-  	console.log(cashflows);
   	var queue = [];
 
   	cashflows.forEach(function(cashflow) {
   		var request;
   		if(!cashflow._id) {
-  			request = $http.post('/api/cashflows', cashflow);
+  			request = $http.post('/api/cashflows', cashflow).then(function(result) {
+          cashflow = result.data.cashflow;
+          return cashflow;
+        });
+
   		} else {
   			request = $http.put('/api/cashflows/' + cashflow._id, cashflow).then(function(result) {
   				cashflow = result.data.cashflow;
   				return cashflow;
   			});
   		};
-  		console.log(cashflow);
+
   		queue.push(request);
   	});
 
   	return $q.all(queue).then(function(results) {
-  		console.log("I saved " + cashflows.length + " cashflows!");
+
   	});
 
   };
-  
+
+  this.createCashFlow = function(cashflow) {
+
+    var request = $http.post('/api/cashflows', cashflow).then(function(result) {
+      cashflow = result.data.cashflow;
+      return cashflow;
+    });
+
+  };
+    
 });

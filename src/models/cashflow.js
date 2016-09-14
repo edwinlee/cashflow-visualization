@@ -4,11 +4,6 @@ var mongoose = require('mongoose');
 
 var shortid = require('shortid');
 
-// cashflow.name
-// cashflow.completed
-
-console.log(shortid.generate());
-
 var cashflowSchema = new mongoose.Schema({
 	_id: { type: String, 'default': shortid.generate },
 	income: Object,

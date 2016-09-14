@@ -9,10 +9,9 @@
 <body ng-app="cashFlowApp">
   <ng-include src="'templates/header.html'"></ng-include>
 
-  <div class="page" ng-controller="mainCtrl">
-      <button ng-click="addCashFlow()">
-        + Add a New Cash Flow</button>
-      <cashflow></cashflow>
+  <div class="page" ng-controller="createCtrl">
+      <button ng-hide="hide" ng-click="addCashFlow(); hide = true">Get started for free</button>
+      <create></create>
   </div>
   
   <script src="/scripts/vendor.bundle.js"></script>

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Viewing cashflow</title>
+  <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/styles/main.css" type="text/css">
+  <base href="/">
+</head>
+<body ng-app="cashFlowApp">
+
+  <ng-include src="'../templates/header.html'"></ng-include>
+  
+  <h1>Viewing cashflow</h1>
+  
+  <div class="list" ng-controller="viewCtrl">
+    <div class="add">
+      <a href="#" ng-click="addCashFlow()">
+        + Add a New Cash Flow</a>
+      </div>
+    <view></view>
+   </div>
+
+  
+  <script src="../scripts/vendor.bundle.js"></script>
+  <script src="../scripts/cashflow.bundle.js"></script>
+</body>
+</html>

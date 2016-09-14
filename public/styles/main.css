@@ -16,3 +16,8 @@ body, html {
   margin: 0;
   padding: 0;
 }
+
+.cashflow-chart {
+	width: 400px;
+	height: 300px;
+}

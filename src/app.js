@@ -11,7 +11,10 @@ require('./seed');
 
 app.use('/', express.static('public'));
 
-app.use('/s/:id', express.static('public'));
+app.use('/s/:id', express.static('public/view'));
+
+app.use('/all', express.static('public/all'));
+
 
 app.use(parser.json());
 

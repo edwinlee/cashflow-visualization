@@ -1,0 +1,37 @@
+    <div class="item" ng-repeat="($cashflowIndex, cashflow) in cashflows | orderBy: 'completed' " >
+      <div class="cashflow-chart">
+        <canvas id="pie" class="chart chart-pie" chart-data="data" chart-labels="labels" chart-options="options"></canvas> 
+      </div>
+      <ul class="breakdown">
+        <li>Income
+          <ul>
+            <li ng-repeat="($incomeIndex, item) in cashflow.income" ng-class="{'editing-item': income.editing, 'completed': cashflow.completed}">
+
+              <input class="editing-label" type="text" ng-model="item.name" ng-change="cashflow.edited = true" placeholder="Enter an income source" />
+
+              <input class="editing-label" type="text" ng-model="item.amount" ng-change="cashflow.edited = true"/>
+              <span ng-click="removeIncome(cashflow, $incomeIndex);cashflow.edited = true">Remove</span>
+            </li>
+
+            <li><label ng-hide="editing" ng-click="addIncome(cashflow)">Add an item</label></li>
+          </ul>
+        </li>
+        <li>Expenses
+          <ul>
+            <li ng-class="{'editing-item': cashflow.edited, 'completed': cashflow.completed}" ng-repeat="($expenseIndex, item) in cashflow.expenses">
+              <input class="editing-label" type="text" ng-model="item.name" ng-change="cashflow.edited = true" placeholder="Enter an expense" />
+              <input class="editing-label" type="text" ng-model="item.amount" ng-change="cashflow.edited = true"/>
+              <span ng-click="removeExpense(cashflow, $expenseIndex);cashflow.edited = true">Remove</span>
+            </li>
+
+            <li><label ng-hide="editing" ng-click="addExpense(cashflow)">Add an item</label></li>
+          </ul>
+        </li>
+        <li>Share: <input type="text" value="http://localhost:3000/s/{{cashflow._id}}" /></li>
+      </ul>
+      
+      <div class="actions">
+        <a href="" ng-click="saveCashFlows()">Save</a>
+        <a href="" class="delete" ng-click="deleteCashFlow(cashflow, $cashflowIndex)">Delete</a>
+      </div>
+    </div>
