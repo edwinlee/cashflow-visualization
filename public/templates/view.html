@@ -1,37 +1,40 @@
-    <div class="item" ng-repeat="($cashflowIndex, cashflow) in cashflows | orderBy: 'completed' " >
-      <div class="cashflow-chart">
-        <canvas id="pie" class="chart chart-pie" chart-data="data" chart-labels="labels" chart-options="options"></canvas> 
+    <div class="page" ng-repeat="($cashflowIndex, cashflow) in cashflows | orderBy: 'completed' " >
+      <div class="page-title clearfix">
+        <h2>My monthly cash flow</h2>
+
+        <div class="share-field">Share this URL: <input type="text" value="{{ pageURL }}" class="form-input share-input" select-on-click /></div>
       </div>
-      <ul class="breakdown">
-        <li>Income
-          <ul>
-            <li ng-repeat="($incomeIndex, item) in cashflow.income" ng-class="{'editing-item': income.editing, 'completed': cashflow.completed}">
+      <div class="report clearfix">
+        <div class="cashflow-chart">
+          <canvas id="pie" class="chart chart-pie" chart-data="data" chart-labels="labels" chart-options="options" chart-legend="true"></canvas> 
+          <div class="alert">
+           <a href="/" ng-click="visitPage()" class="btn">
+            Create my own</a>
+           <p>100% free - no sign up necessary</p>
+          </div>
+        </div>
+        <ul class="item viewing breakdown">
+          <li class="item-type">Income
+            <ul>
+              <li ng-repeat="($incomeIndex, item) in cashflow.income" ng-class="{'editing-item': income.editing, 'completed': cashflow.completed}" class="item-row">
 
-              <input class="editing-label" type="text" ng-model="item.name" ng-change="cashflow.edited = true" placeholder="Enter an income source" />
+                <span class="item-label">{{item.name}}</span>
+                <span class="item-amount">{{item.amount}}</span>
+              </li>
+            </ul>
+          </li>
+          <li class="item-type">Expenses
+            <ul>
+              <li ng-class="{'editing-item': cashflow.edited, 'completed': cashflow.completed}" ng-repeat="($expenseIndex, item) in cashflow.expenses" class="item-row">
+                <span class="item-label">{{item.name}}</span>
+                <span class="item-amount">{{item.amount}}</span>
+              </li>
+            </ul>
+          </li>
+          <li class="item-type item-divider">Net savings
+            <span class="item-amount" ng-class="{ 'green': netSavings > 0, 'red': netSavings < 0 }">{{netSavings}}</span>
+          </li>
 
-              <input class="editing-label" type="text" ng-model="item.amount" ng-change="cashflow.edited = true"/>
-              <span ng-click="removeIncome(cashflow, $incomeIndex);cashflow.edited = true">Remove</span>
-            </li>
-
-            <li><label ng-hide="editing" ng-click="addIncome(cashflow)">Add an item</label></li>
-          </ul>
-        </li>
-        <li>Expenses
-          <ul>
-            <li ng-class="{'editing-item': cashflow.edited, 'completed': cashflow.completed}" ng-repeat="($expenseIndex, item) in cashflow.expenses">
-              <input class="editing-label" type="text" ng-model="item.name" ng-change="cashflow.edited = true" placeholder="Enter an expense" />
-              <input class="editing-label" type="text" ng-model="item.amount" ng-change="cashflow.edited = true"/>
-              <span ng-click="removeExpense(cashflow, $expenseIndex);cashflow.edited = true">Remove</span>
-            </li>
-
-            <li><label ng-hide="editing" ng-click="addExpense(cashflow)">Add an item</label></li>
-          </ul>
-        </li>
-        <li>Share: <input type="text" value="http://localhost:3000/s/{{cashflow._id}}" /></li>
-      </ul>
-      
-      <div class="actions">
-        <a href="" ng-click="saveCashFlows()">Save</a>
-        <a href="" class="delete" ng-click="deleteCashFlow(cashflow, $cashflowIndex)">Delete</a>
+        </ul>
       </div>
     </div>

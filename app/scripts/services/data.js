@@ -3,14 +3,14 @@
 var angular = require('angular');
 
 angular.module('cashFlowApp')
-.service('dataService', function($http, $q, $location) {
+.service('dataService', function($http, $q, $window, $location) {
   this.getCashFlows = function(cb) {
 
     if($location.path() === '/all/') {
       $http.get('/api/cashflows').then(cb);
     } else {
       $http.get('/api/cashflows/' + $location.path().split('/s/')[1].replace(/\/$/, '')).then(cb);
-    }
+    }    
     
   };
   
@@ -20,6 +20,7 @@ angular.module('cashFlowApp')
 
     var request = $http.delete('/api/cashflows/' + cashflow._id, cashflow).then(function(result) {
         cashflow = result.data.cashflow;
+        $window.location.href = '/s/' + cashflow._id;
         return cashflow;
     });
 
@@ -69,6 +70,9 @@ angular.module('cashFlowApp')
 
     var request = $http.post('/api/cashflows', cashflow).then(function(result) {
       cashflow = result.data.cashflow;
+
+      $window.location.href = '/s/' + cashflow._id;
+
       return cashflow;
     });
 

@@ -3,17 +3,27 @@
 <head>
   <title>Sight</title>
   <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/styles/reset.css" type="text/css">
   <link rel="stylesheet" href="/styles/main.css" type="text/css">
   <base href="/">
 </head>
 <body ng-app="cashFlowApp">
-  <ng-include src="'templates/header.html'"></ng-include>
+  <header class="header">
+    <a href="/" target="_self">Sight</a>
+  </header>
+  <section class="hero">
+    <h1>Visualize your monthly cash flow</h1>
+    <p>It’s 100% free and easy, no sign up necessary</p>
+    <img src="images/hero.png" alt="" />
+  </section>
 
-  <div class="page" ng-controller="createCtrl">
-      <button ng-hide="hide" ng-click="addCashFlow(); hide = true">Get started for free</button>
-      <create></create>
-  </div>
-  
+  <section class="main" ng-controller="createCtrl">
+    <h2>Get your free cashflow report</h2>
+    <create></create>
+  </section>
+
+  <ng-include src="'../templates/footer.html'"></ng-include>
+
   <script src="/scripts/vendor.bundle.js"></script>
   <script src="/scripts/cashflow.bundle.js"></script>
 </body>

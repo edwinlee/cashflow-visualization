@@ -4,7 +4,7 @@ var angular = require('angular');
 
 angular.module('cashFlowApp').config(function($locationProvider) {
   $locationProvider.html5Mode(true);
-}).controller('cashFlowCtrl', function($scope, $location, $window, dataService) {
+}).controller('cashFlowCtrl', function($scope, $location, dataService) {
 
   $scope.addIncome = function(cashflow) {
     cashflow.income.push({'name': '', 'amount': 0});
@@ -37,12 +37,11 @@ angular.module('cashFlowApp').config(function($locationProvider) {
   };
 
   $scope.createCashFlow = function(cashflow) {
-
     dataService.createCashFlow(cashflow);
+  };
 
-    $location.path('/s/' + cashflow._id);
+  $scope.visitPage = function() {
     $window.location.reload();
-
   };
 
   $scope.resetCashFlowState = function() {
@@ -50,8 +49,5 @@ angular.module('cashFlowApp').config(function($locationProvider) {
       cashflow.edited = false;
     });
   };
-
-  //$scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
-  //$scope.data = [300, 500, 100];
 
 })

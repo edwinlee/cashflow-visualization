@@ -440,28 +440,56 @@ webpackJsonp([0],[
 
 	  $scope.cashflows = [];
 
-	  $scope.addCashFlow = function() {
-	    $scope.cashflows.unshift(
-	      {
-	        _id: shortid.generate(),
-	        income: [
-	          {
-	            name: 'enter type',
-	            amount: 0
-	          }
-	        ],
-	        expenses: [
-	          {
-	            name: 'enter type',
-	            amount: 0
-	          }
-	        ],
-	        edited: true
-	      }
-	    );
-
-	  };
-	  
+	  $scope.cashflows.unshift(
+	    {
+	      _id: shortid.generate(),
+	      income: [
+	        {
+	          name: 'Paycheck',
+	          amount: 0
+	        }
+	      ],
+	      expenses: [
+	        {
+	          name: 'Rent',
+	          amount: 0
+	        },
+	        {
+	          name: 'Groceries',
+	          amount: 0
+	        },
+	        {
+	          name: 'Car payment',
+	          amount: 0
+	        },
+	        {
+	          name: 'Shopping',
+	          amount: 0
+	        },
+	        {
+	          name: 'Eating out',
+	          amount: 0
+	        },
+	        {
+	          name: 'Cell phone',
+	          amount: 0
+	        },
+	        {
+	          name: 'Entertainment',
+	          amount: 0
+	        },
+	        {
+	          name: 'Utilities',
+	          amount: 0
+	        },
+	        {
+	          name: 'Misc',
+	          amount: 0
+	        }
+	      ],
+	      edited: true
+	    }
+	  );  
 	  
 	})
 
@@ -476,7 +504,7 @@ webpackJsonp([0],[
 	var shortid = __webpack_require__(4);
 
 	angular.module('cashFlowApp')
-	.controller('viewCtrl', function($scope, $log, $interval, dataService){
+	.controller('viewCtrl', function($scope, $log, $window, $interval, dataService){
 	  
 	  //$scope.seconds = 0;
 
@@ -492,8 +520,62 @@ webpackJsonp([0],[
 	    var cashflows = response.data.cashflows;  
 	    $scope.cashflows =  cashflows;
 
-	    $scope.labels = [cashflows[0].expenses[0].name, cashflows[0].expenses[1].name, cashflows[0].expenses[3].name];
-	    $scope.data = [cashflows[0].expenses[0].amount, cashflows[0].expenses[1].amount, cashflows[0].expenses[3].amount];
+	    $scope.expenses = cashflows[0].expenses;
+	    $scope.totalExpenses = 0;
+
+	    $scope.income = cashflows[0].income;
+	    $scope.totalIncome = 0;
+
+	    $scope.labels = [];
+	    $scope.data = [];
+
+	    function capitalize(string) {
+	        return string.charAt(0).toUpperCase() + string.slice(1);
+	    }
+
+	    $scope.options = {
+	      legend: { 
+	        display: true,
+	        position: 'bottom',
+	        labels: {
+	          boxWidth: 12
+	        }
+	      },
+	      tooltips: {
+	        enabled: true,
+	        mode: 'single',
+	        callbacks: {
+	          label: function(tooltipItem, data) {
+	            var label = data.labels[tooltipItem.index];
+	            var datasetLabel = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+	            return capitalize(label) + ': $' + parseFloat(datasetLabel).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,") + ' (' + Math.round(datasetLabel/$scope.totalIncome * 100) + '%)';
+	          }
+	        }
+	      },
+	    };
+
+	    for (var i = 0; i < $scope.expenses.length; i++) {
+	      if ($scope.expenses[i].amount > 0) {
+	        $scope.labels.push(capitalize($scope.expenses[i].name));
+	        $scope.data.push($scope.expenses[i].amount);
+	        $scope.totalExpenses += parseInt($scope.expenses[i].amount);
+	      }
+	      
+	    }
+
+	    for (var i = 0; i < $scope.income.length; i++) {
+	      $scope.totalIncome += parseInt($scope.income[i].amount);
+	    }
+	    
+	    $scope.netSavings = $scope.totalIncome - $scope.totalExpenses;
+	    
+	    if($scope.netSavings > 0) {
+	      $scope.labels.push('Savings');
+	      $scope.data.push($scope.netSavings);
+	    }
+
+	    $scope.pageURL = $window.location.href;
+	    
 	  });
 
 	  
@@ -509,7 +591,7 @@ webpackJsonp([0],[
 
 	angular.module('cashFlowApp').config(function($locationProvider) {
 	  $locationProvider.html5Mode(true);
-	}).controller('cashFlowCtrl', function($scope, $location, $window, dataService) {
+	}).controller('cashFlowCtrl', function($scope, $location, dataService) {
 
 	  $scope.addIncome = function(cashflow) {
 	    cashflow.income.push({'name': '', 'amount': 0});
@@ -542,12 +624,11 @@ webpackJsonp([0],[
 	  };
 
 	  $scope.createCashFlow = function(cashflow) {
-
 	    dataService.createCashFlow(cashflow);
+	  };
 
-	    $location.path('/s/' + cashflow._id);
+	  $scope.visitPage = function() {
 	    $window.location.reload();
-
 	  };
 
 	  $scope.resetCashFlowState = function() {
@@ -555,9 +636,6 @@ webpackJsonp([0],[
 	      cashflow.edited = false;
 	    });
 	  };
-
-	  //$scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
-	  //$scope.data = [300, 500, 100];
 
 	})
 
@@ -576,7 +654,18 @@ webpackJsonp([0],[
 	    replace: true,
 	    controller: 'cashFlowCtrl'
 	  }
-	});
+	}).directive('selectOnClick', ['$window', function ($window) {
+	    return {
+	        restrict: 'A',
+	        link: function (scope, element, attrs) {
+	            element.on('click', function () {
+	                if (!$window.getSelection().toString()) {
+	                    this.setSelectionRange(0, this.value.length)
+	                }
+	            });
+	        }
+	    };
+	}]);
 
 /***/ },
 /* 17 */
@@ -621,14 +710,14 @@ webpackJsonp([0],[
 	var angular = __webpack_require__(1);
 
 	angular.module('cashFlowApp')
-	.service('dataService', function($http, $q, $location) {
+	.service('dataService', function($http, $q, $window, $location) {
 	  this.getCashFlows = function(cb) {
 
 	    if($location.path() === '/all/') {
 	      $http.get('/api/cashflows').then(cb);
 	    } else {
 	      $http.get('/api/cashflows/' + $location.path().split('/s/')[1].replace(/\/$/, '')).then(cb);
-	    }
+	    }    
 	    
 	  };
 	  
@@ -638,6 +727,7 @@ webpackJsonp([0],[
 
 	    var request = $http.delete('/api/cashflows/' + cashflow._id, cashflow).then(function(result) {
 	        cashflow = result.data.cashflow;
+	        $window.location.href = '/s/' + cashflow._id;
 	        return cashflow;
 	    });
 
@@ -687,6 +777,9 @@ webpackJsonp([0],[
 
 	    var request = $http.post('/api/cashflows', cashflow).then(function(result) {
 	      cashflow = result.data.cashflow;
+
+	      $window.location.href = '/s/' + cashflow._id;
+
 	      return cashflow;
 	    });
 
