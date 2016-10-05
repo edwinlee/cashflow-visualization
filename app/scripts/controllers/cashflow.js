@@ -4,7 +4,7 @@ var angular = require('angular');
 
 angular.module('cashFlowApp').config(function($locationProvider) {
   $locationProvider.html5Mode(true);
-}).controller('cashFlowCtrl', function($scope, $location, dataService) {
+}).controller('cashFlowCtrl', function($scope, $window, $location, dataService) {
 
   $scope.addIncome = function(cashflow) {
     cashflow.income.push({'name': '', 'amount': 0});
