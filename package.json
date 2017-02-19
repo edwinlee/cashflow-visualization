@@ -1,5 +1,5 @@
 {
-  "name": "sight",
+  "name": "cashflow-visualization",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,11 +8,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://10xSoftware@bitbucket.org/10xSoftware/sight.git"
+    "url": "git@github.com:edwinlee/cashflow-visualization.git"
   },
   "author": "",
   "license": "ISC",
-  "homepage": "https://bitbucket.org/10xSoftware/sight#readme",
+  "homepage": "https://github.com/edwinlee/cashflow-visualization#readme",
   "devDependencies": {
     "webpack": "1.13.2"
   },
